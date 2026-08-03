@@ -1,8 +1,6 @@
 # ramen
 
-Ramen 블로그 배포 저장소. `server`, `web`, `obsidian-ramen-client`를 git submodule로 묶고, Docker Compose로 기동합니다.
-
-전체 소스가 평평하게 들어있는 개발용 저장소는 [ramen-dev](https://github.com/project-ramen/ramen-dev)를 참고하세요.
+Real-time Automated Markdown Engine for Notes
 
 ## Clone
 
