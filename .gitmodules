@@ -1,6 +1,3 @@
-[submodule "obsidian-ramen-client"]
-	path = obsidian-ramen-client
-	url = https://github.com/project-ramen/obsidian
 [submodule "server"]
 	path = server
 	url = https://github.com/project-ramen/server
