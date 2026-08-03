@@ -1,0 +1,38 @@
+# 프로덕션용 — 레지스트리에 미리 빌드/푸시된 이미지 사용 (ramen-dev 저장소의 scripts/docker-build-push.sh 참고)
+#
+# 필수 환경변수(.env): POSTGRES_PASSWORD, RAMEN_ADMIN_PASSWORD
+# 선택 환경변수(.env): REGISTRY_IMAGE(기본 docker.foxstar.app/ramen/server), IMAGE_TAG(기본 latest)
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ramen
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ramen
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./server/migrate/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ramen -d ramen"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  ramen:
+    image: ${REGISTRY_IMAGE:-docker.foxstar.app/ramen/server}:${IMAGE_TAG:-latest}
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://ramen:${POSTGRES_PASSWORD}@postgres:5432/ramen
+      RAMEN_ADMIN_PASSWORD: ${RAMEN_ADMIN_PASSWORD:?RAMEN_ADMIN_PASSWORD is required}
+    volumes:
+      - uploads_data:/app/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  uploads_data:

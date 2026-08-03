@@ -1,3 +1,5 @@
+# 로컬 개발용 — Dockerfile로 직접 빌드, `docker compose watch`로 소스 변경 감지
+#
 # 관리자 API 비밀번호: .env에 RAMEN_ADMIN_PASSWORD=원하는비밀번호 설정 후
 # 앱에서 블로그 연결 시 같은 비밀번호 입력. 비워두면 인증 없이 사용.
 #
@@ -21,7 +23,7 @@ services:
       retries: 5
 
   ramen:
-    image: ramen:latest
+    image: ramen:dev
     build: .
     ports:
       - "3000:3000"
