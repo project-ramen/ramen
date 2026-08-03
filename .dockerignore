@@ -1,0 +1,8 @@
+web/node_modules
+web/dist
+web/.astro
+server/node_modules
+.git
+*.md
+app
+server-couchdb
