@@ -13,7 +13,7 @@ services:
       POSTGRES_DB: ramen
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./server/migrate/001_init.sql:/docker-entrypoint-initdb.d/001_init.sql:ro
+      - ./server/migrate:/docker-entrypoint-initdb.d:ro
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     healthcheck:
